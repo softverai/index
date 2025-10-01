@@ -1,0 +1,3404 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SoftverAI - AI Powered Solutions</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #74b9ff 0%, #0984e3 50%, #6c5ce7 100%);
+            --glass-bg: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.15);
+            --accent-color: #00d4ff;
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.85);
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            --section-padding: 5rem 0;
+        }
+
+        [data-theme="dark"] {
+            --primary-gradient: linear-gradient(135deg, #2d3436 0%, #636e72 50%, #2d3436 100%);
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--primary-gradient);
+            min-height: 100vh;
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(0, 212, 255, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(79, 172, 254, 0.06) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-nav {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffffff 0%, #00d4ff 50%, #74b9ff 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .logo-nav:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .theme-toggle {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            padding: 0.5rem 1rem;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Custom Language Dropdown */
+        .lang-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .lang-toggle {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            padding: 0.3rem 1rem;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            min-width: 80px;
+            justify-content: space-between;
+        }
+
+        .lang-toggle:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .lang-arrow {
+            transition: transform 0.3s ease;
+            font-size: 0.8rem;
+        }
+
+        .lang-dropdown.open .lang-arrow {
+            transform: rotate(180deg);
+        }
+
+        .lang-options {
+            position: absolute;
+            top: calc(100% + 0.5rem);
+            left: 0;
+            right: 0;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 1001;
+            overflow: hidden;
+        }
+
+        .lang-dropdown.open .lang-options {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .lang-option {
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .lang-option:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .lang-option.active {
+            background: rgba(0, 212, 255, 0.1);
+            color: var(--accent-color);
+        }
+
+        .lang-flag {
+            font-size: 1.1rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: calc(80px + 5rem) 0 var(--section-padding);
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #ffffff 0%, #00d4ff 50%, #74b9ff 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+        }
+
+        .hero-tagline {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            font-weight: 400;
+        }
+
+        .hero-description {
+            font-size: 1.3rem;
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            min-height: 6.8rem;
+        }
+
+        /* Services Section */
+        .services {
+            padding: var(--section-padding);
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--text-primary);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .service-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2.5rem;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .service-card {
+            cursor: pointer;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow);
+        }
+
+        /* Technology Info Modal */
+        .tech-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1001;
+        }
+
+        .tech-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .tech-modal-content {
+            background: var(--glass-bg);
+            backdrop-filter: blur(25px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            max-width: 700px;
+            width: 90%;
+            max-height: 85vh;
+            overflow-y: auto;
+            position: relative;
+            transform: scale(0.8) translateY(50px);
+            transition: all 0.3s ease;
+        }
+
+        .tech-modal.active .tech-modal-content {
+            transform: scale(1) translateY(0);
+        }
+
+        .tech-modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--text-primary);
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .tech-modal-close:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+        }
+
+        .tech-modal-body {
+            padding: 0;
+            overflow-y: auto;
+        }
+
+        .tech-banner {
+            height: 200px;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+            border-radius: 20px 20px 0 0;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: flex-end;
+            justify-content: flex-start;
+            background-size: cover;
+            background-position: center;
+            background-blend-mode: overlay;
+        }
+
+        .tech-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
+            z-index: 0;
+        }
+
+        /* Copyright-free background images from Unsplash */
+        .tech-banner.ai {
+            background-image:
+                linear-gradient(135deg, rgba(46, 213, 115, 0.8) 0%, rgba(0, 212, 255, 0.8) 100%),
+                url('https://images.unsplash.com/photo-1555255707-c07966088b7b?w=800&h=400&fit=crop&auto=format');
+        }
+
+        .tech-banner.web {
+            background-image:
+                linear-gradient(135deg, rgba(74, 144, 226, 0.8) 0%, rgba(0, 212, 255, 0.8) 100%),
+                url('https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800&h=400&fit=crop&auto=format');
+        }
+
+        .tech-banner.mobile {
+            background-image:
+                linear-gradient(135deg, rgba(116, 185, 255, 0.8) 0%, rgba(162, 155, 254, 0.8) 100%),
+                url('https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=800&h=400&fit=crop&auto=format');
+        }
+
+        .tech-banner.cloud {
+            background-image:
+                linear-gradient(135deg, rgba(70, 240, 255, 0.8) 0%, rgba(116, 185, 255, 0.8) 100%),
+                url('https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&h=400&fit=crop&auto=format');
+        }
+
+        .tech-banner.security {
+            background-image:
+                linear-gradient(135deg, rgba(255, 107, 107, 0.8) 0%, rgba(255, 159, 67, 0.8) 100%),
+                url('https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=800&h=400&fit=crop&auto=format');
+        }
+
+        .tech-banner.data {
+            background-image:
+                linear-gradient(135deg, rgba(46, 213, 115, 0.8) 0%, rgba(0, 184, 169, 0.8) 100%),
+                url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=400&fit=crop&auto=format');
+        }
+
+        .tech-banner-icon {
+            font-size: 4rem;
+            z-index: 1;
+            position: relative;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        .tech-banner-text {
+            color: white;
+            font-size: 1.8rem;
+            font-weight: 700;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.7);
+            z-index: 1;
+            margin: 1.5rem;
+        }
+
+        .tech-section {
+            margin-bottom: 2rem;
+            padding: 0 2rem;
+        }
+
+        .tech-section:last-child {
+            padding-bottom: 2rem;
+        }
+
+        .tech-section h4 {
+            color: var(--accent-color);
+            font-size: 1.1rem;
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+        }
+
+        .tech-section p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .tech-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .tech-feature {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1rem;
+            border-radius: 10px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .tech-feature h5 {
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .tech-feature p {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            margin: 0;
+        }
+
+        @media (max-width: 768px) {
+            .tech-modal-content {
+                width: 95%;
+                margin: 1rem;
+            }
+
+            .tech-banner-text {
+                font-size: 1.4rem;
+                margin: 1rem;
+            }
+
+            .tech-section {
+                padding: 0 1.5rem;
+            }
+
+            .tech-section:last-child {
+                padding-bottom: 1.5rem;
+            }
+
+            .tech-features {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .service-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .service-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .service-description {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: var(--section-padding);
+        }
+
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        .contact-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .contact-info p {
+            margin-bottom: 2rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .social-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+        }
+
+        .social-link:hover {
+            background: var(--accent-color);
+            transform: translateY(-2px);
+        }
+
+        .contact-form {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+
+        /* Custom validation styling */
+        .form-group input:invalid:not(:focus):not(:placeholder-shown) {
+            border-color: #ff6b6b !important;
+            box-shadow: 0 0 10px rgba(255, 107, 107, 0.3) !important;
+        }
+
+        .form-group input:valid:not(:placeholder-shown) {
+            border-color: #51cf66 !important;
+            box-shadow: 0 0 10px rgba(81, 207, 102, 0.3) !important;
+        }
+
+        /* Hide default browser validation tooltips */
+        .form-group input:invalid {
+            box-shadow: none;
+        }
+
+        /* Completely disable browser validation styling */
+        input:invalid,
+        input:valid,
+        textarea:invalid,
+        textarea:valid,
+        select:invalid,
+        select:valid {
+            box-shadow: none !important;
+            outline: none !important;
+        }
+
+        /* Remove focus ring on invalid inputs */
+        input:invalid:focus,
+        textarea:invalid:focus,
+        select:invalid:focus {
+            box-shadow: none !important;
+            outline: none !important;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        /* Custom Select Dropdown */
+        .custom-select {
+            position: relative;
+            width: 100%;
+        }
+
+        .custom-select select {
+            display: none;
+        }
+
+        .select-trigger {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .select-trigger:focus,
+        .select-trigger.active {
+            border-color: var(--accent-color);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .select-trigger .placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .select-arrow {
+            transition: transform 0.3s ease;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .custom-select.open .select-arrow {
+            transform: rotate(180deg);
+        }
+
+        .select-options {
+            position: absolute;
+            top: calc(100% + 0.5rem);
+            left: 0;
+            right: 0;
+            background: rgba(20, 30, 48, 0.95);
+            backdrop-filter: blur(25px);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 9999;
+            max-height: 200px;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Custom Scrollbar */
+        .select-options::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .select-options::-webkit-scrollbar-track {
+            background: transparent;
+            border-radius: 3px;
+        }
+
+        .select-options::-webkit-scrollbar-thumb {
+            background: var(--accent-color);
+            border-radius: 3px;
+            transition: background 0.3s ease;
+        }
+
+        .select-options::-webkit-scrollbar-thumb:hover {
+            background: #00b8e6;
+        }
+
+        /* Firefox scrollbar */
+        .select-options {
+            scrollbar-width: thin;
+            scrollbar-color: var(--accent-color) transparent;
+        }
+
+        /* Global Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, var(--accent-color), #74b9ff);
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #00b8e6, #6ba6ff);
+            transform: scale(1.1);
+        }
+
+        ::-webkit-scrollbar-corner {
+            background: transparent;
+        }
+
+        /* Firefox global scrollbar */
+        html {
+            scrollbar-width: thin;
+            scrollbar-color: var(--accent-color) transparent;
+        }
+
+        /* Dark mode scrollbar adjustments */
+        [data-theme="dark"] ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        [data-theme="dark"] ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #636e72, #2d3436);
+        }
+
+        [data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+        }
+
+        .custom-select.open .select-options {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .select-option {
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--text-primary);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .select-option:last-child {
+            border-bottom: none;
+        }
+
+        .select-option:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .select-option.selected {
+            background: rgba(0, 212, 255, 0.1);
+            color: var(--accent-color);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, var(--accent-color), #667eea);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 16px rgba(0, 212, 255, 0.3);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 212, 255, 0.4);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Floating Contact Button */
+        .floating-contact {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 9998;
+        }
+
+        .contact-fab {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--accent-color), #74b9ff);
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(0, 212, 255, 0.4);
+            transition: all 0.3s ease;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .contact-fab:hover {
+            transform: scale(1.1) translateY(-2px);
+            box-shadow: 0 12px 35px rgba(0, 212, 255, 0.6);
+        }
+
+        .contact-fab:active {
+            transform: scale(0.95);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+        }
+
+        /* Contact Modal */
+        .contact-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            padding: 1rem;
+        }
+
+        .contact-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: var(--glass-bg);
+            backdrop-filter: blur(25px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            max-width: 500px;
+            width: 100%;
+            max-height: 80vh;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transform: scale(0.8) translateY(50px);
+            transition: all 0.3s ease;
+        }
+
+        .contact-modal.active .modal-content {
+            transform: scale(1) translateY(0);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 2rem 1rem 2rem;
+            flex-shrink: 0;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+        }
+
+        .modal-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            padding: 1.5rem 2rem 2rem 2rem;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .modal-form .form-group {
+            margin-bottom: 0;
+        }
+
+        /* Phone Input Group */
+        .phone-input-group {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .country-select {
+            min-width: 80px;
+            max-width: 100px;
+            flex-shrink: 0;
+        }
+
+        .country-select .select-trigger {
+            padding: 1rem 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .phone-input-group input[type="tel"] {
+            flex: 1;
+        }
+
+        /* Field Error Messages */
+        .field-error {
+            color: #ff4757;
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+            min-height: 1rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .field-error.show {
+            opacity: 1;
+        }
+
+        .form-group input.error,
+        .form-group textarea.error {
+            border-color: #ff4757;
+            background: rgba(255, 71, 87, 0.1);
+        }
+
+        .form-group input.success,
+        .form-group textarea.success {
+            border-color: #2ed573;
+            background: rgba(46, 213, 115, 0.1);
+        }
+
+        /* Custom Select Error/Success States */
+        .custom-select.error .select-trigger {
+            border-color: #ff4757 !important;
+            background: rgba(255, 71, 87, 0.1) !important;
+        }
+
+        .custom-select.success .select-trigger {
+            border-color: #2ed573 !important;
+            background: rgba(46, 213, 115, 0.1) !important;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 3rem 0 1rem;
+            border-top: 1px solid var(--glass-border);
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffffff 0%, #00d4ff 50%, #74b9ff 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        .footer-description {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            max-width: 400px;
+        }
+
+        .footer-links h4 {
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 2rem;
+            }
+
+            .footer-description {
+                max-width: none;
+            }
+        }
+
+        /* Mobile Navigation */
+        .mobile-menu-toggle {
+            display: none;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 6px;
+            padding: 0.5rem;
+            color: var(--text-primary);
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+
+        /* Responsive Breakpoints */
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 1rem;
+            }
+
+            .hero-title {
+                font-size: 2rem;
+                line-height: 1.2;
+            }
+
+            .hero-tagline {
+                font-size: 1rem;
+            }
+
+            .hero-description {
+                font-size: 1rem;
+                line-height: 1.5;
+                min-height: 4.5rem;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .service-card {
+                padding: 1.5rem;
+            }
+
+            .service-icon {
+                font-size: 2.5rem;
+            }
+
+            .service-title {
+                font-size: 1.1rem;
+            }
+
+            .contact-form {
+                padding: 1.5rem;
+            }
+
+
+
+            /* Mobile particles optimization */
+            #particles-js {
+                opacity: 0.3;
+            }
+
+            /* Mobile floating button */
+            .floating-contact {
+                bottom: 1rem;
+                right: 1rem;
+            }
+
+            .contact-fab {
+                width: 50px;
+                height: 50px;
+                font-size: 1.3rem;
+            }
+
+            .modal-content {
+                margin: 0.5rem;
+            }
+
+            .modal-header {
+                padding: 1.5rem 1.5rem 1rem 1.5rem;
+            }
+
+            .modal-form {
+                padding: 1rem 1.5rem 1.5rem 1.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-description {
+                font-size: 1.1rem;
+                min-height: 5.6rem;
+            }
+
+            .contact-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .nav {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            .nav-controls {
+                order: 3;
+                width: 100%;
+                justify-content: center;
+                padding-top: 1rem;
+                border-top: 1px solid var(--glass-border);
+                margin-top: 0.5rem;
+                display: none; /* Hide by default on mobile */
+            }
+
+            .nav-controls.mobile-show {
+                display: flex;
+            }
+
+            .hero {
+                padding-top: calc(140px + 2rem);
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .social-links {
+                justify-content: center;
+            }
+
+            /* Mobile form improvements */
+            .form-group input,
+            .form-group textarea {
+                font-size: 16px; /* Prevents zoom on iOS */
+            }
+
+            .submit-btn {
+                padding: 1.2rem 2rem;
+                font-size: 1.1rem;
+            }
+
+            /* Mobile dropdown improvements */
+            .select-trigger {
+                font-size: 16px; /* Prevents zoom on iOS */
+                padding: 1.2rem 1rem;
+            }
+
+            .select-options {
+                max-height: 150px; /* Smaller on mobile */
+            }
+
+            .select-option {
+                padding: 1.2rem 1rem;
+                font-size: 16px;
+            }
+
+            /* Mobile scrollbar - thicker for easier use */
+            ::-webkit-scrollbar {
+                width: 12px;
+            }
+
+            .select-options::-webkit-scrollbar {
+                width: 8px;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .services-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .hero-description {
+                font-size: 1.2rem;
+                min-height: 6.1rem;
+            }
+        }
+
+        /* Touch improvements */
+        @media (hover: none) and (pointer: coarse) {
+            .service-card:hover,
+            .social-link:hover,
+            .lang-toggle:hover,
+            .theme-toggle:hover,
+            .select-trigger:hover,
+            .select-option:hover {
+                transform: none;
+                background: var(--glass-bg);
+            }
+
+            .service-card:active,
+            .social-link:active,
+            .submit-btn:active,
+            .select-trigger:active,
+            .select-option:active {
+                transform: scale(0.98);
+            }
+
+            /* Touch-friendly scrollbars */
+            ::-webkit-scrollbar {
+                width: 14px;
+            }
+
+            .select-options::-webkit-scrollbar {
+                width: 10px;
+            }
+
+            ::-webkit-scrollbar-thumb {
+                border-radius: 7px;
+            }
+
+            .select-options::-webkit-scrollbar-thumb {
+                border-radius: 5px;
+            }
+
+            /* Larger dropdown for easier touch */
+            .select-options {
+                max-height: 180px;
+            }
+
+            .select-option {
+                padding: 1.5rem 1rem;
+                min-height: 48px; /* Minimum touch target */
+            }
+
+            .select-trigger {
+                min-height: 48px; /* Minimum touch target */
+            }
+
+            /* Disable particles interactions on touch devices */
+            #particles-js {
+                pointer-events: none;
+            }
+        }
+
+        /* Loading Screen */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--primary-gradient);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+            overflow: hidden;
+        }
+
+        /* Animated Background Elements */
+        .loading-screen::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background:
+                radial-gradient(circle at 20% 30%, rgba(0, 212, 255, 0.25) 0%, transparent 60%),
+                radial-gradient(circle at 80% 70%, rgba(138, 43, 226, 0.2) 0%, transparent 55%),
+                radial-gradient(circle at 40% 80%, rgba(255, 20, 147, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 60% 20%, rgba(255, 215, 0, 0.1) 0%, transparent 45%);
+            animation: backgroundFloat 12s ease-in-out infinite;
+            z-index: -1;
+        }
+
+        .loading-screen::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                linear-gradient(45deg, rgba(0, 212, 255, 0.12) 0%, transparent 35%),
+                linear-gradient(-45deg, rgba(138, 43, 226, 0.1) 30%, transparent 70%),
+                linear-gradient(135deg, rgba(255, 20, 147, 0.08) 20%, transparent 60%),
+                linear-gradient(-135deg, rgba(255, 215, 0, 0.06) 40%, transparent 80%);
+            animation: gradientShift 10s ease-in-out infinite;
+            z-index: -1;
+        }
+
+        @keyframes backgroundFloat {
+            0%, 100% {
+                transform: translate(0, 0) rotate(0deg);
+                opacity: 0.8;
+            }
+            25% {
+                transform: translate(-40px, -50px) rotate(3deg);
+                opacity: 1;
+            }
+            50% {
+                transform: translate(50px, -30px) rotate(-2deg);
+                opacity: 0.9;
+            }
+            75% {
+                transform: translate(-30px, 40px) rotate(1.5deg);
+                opacity: 1.1;
+            }
+        }
+
+        @keyframes gradientShift {
+            0%, 100% {
+                opacity: 0.7;
+                transform: scale(1) rotate(0deg);
+            }
+            25% {
+                opacity: 0.9;
+                transform: scale(1.08) rotate(2deg);
+            }
+            50% {
+                opacity: 0.8;
+                transform: scale(0.92) rotate(-1.5deg);
+            }
+            75% {
+                opacity: 1;
+                transform: scale(1.05) rotate(1deg);
+            }
+        }
+
+        .loading-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+
+
+        .loading-text {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            animation: textPulse 1.5s ease-in-out infinite;
+            margin-bottom: 1rem;
+        }
+
+        .loading-steps {
+            position: absolute;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .loading-step {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 0.5rem 1rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.85rem;
+            opacity: 0;
+            transform: translateY(10px) scale(0.98);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            text-align: left;
+            word-wrap: break-word;
+            hyphens: auto;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .loading-step::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.8s ease;
+        }
+
+        .loading-step.active {
+            opacity: 0.9;
+            transform: translateY(0) scale(1);
+            color: rgba(0, 212, 255, 0.8);
+            border-color: rgba(0, 212, 255, 0.2);
+            box-shadow: 0 0 10px rgba(0, 212, 255, 0.1);
+            background: rgba(0, 212, 255, 0.05);
+        }
+
+        .loading-step.active::after {
+            left: 100%;
+        }
+
+        .loading-step.completed {
+            opacity: 0.5;
+            color: rgba(76, 175, 80, 0.7);
+            border-color: rgba(76, 175, 80, 0.15);
+            background: rgba(76, 175, 80, 0.03);
+            box-shadow: 0 0 8px rgba(76, 175, 80, 0.1);
+        }
+
+        .loading-step-icon {
+            font-size: 1rem;
+            margin-right: 0.75rem;
+            display: inline-block;
+            transition: all 0.3s ease;
+            opacity: 0.7;
+        }
+
+        .loading-step .loading-step-icon {
+            filter: grayscale(1);
+        }
+
+        .loading-step.active .loading-step-icon {
+            filter: grayscale(0);
+            animation: iconPulse 1s ease-in-out infinite;
+            text-shadow: 0 0 10px currentColor;
+        }
+
+        .loading-step.completed .loading-step-icon {
+            filter: grayscale(0);
+            animation: iconSuccess 0.5s ease;
+        }
+
+        .loading-greeting {
+            opacity: 0;
+            text-align: center;
+            margin-top: 2rem;
+            position: relative;
+        }
+
+        .loading-greeting.show {
+            opacity: 1;
+        }
+
+        .greeting-logo {
+            font-size: 4rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffffff 0%, #00d4ff 50%, #74b9ff 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+            opacity: 0;
+            transform: scale(0.3);
+            transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .greeting-logo.zoom-in {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .greeting-text {
+            font-size: 1.5rem;
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+            opacity: 0;
+            transform: translateX(-100px);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .greeting-text.slide-in {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .greeting-subtext {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            opacity: 0;
+            transform: translateX(-100px);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .greeting-subtext.slide-in {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+
+        /* Particles Container */
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.6;
+        }
+
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeIn 0.8s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+
+        @keyframes textPulse {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        @keyframes iconPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+        }
+
+        @keyframes iconSuccess {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.3) rotate(10deg); }
+            100% { transform: scale(1); }
+        }
+
+
+        /* Mobile Loading Screen Responsive */
+        @media (max-width: 768px) {
+            .loading-screen {
+                padding: 2rem 1rem;
+            }
+
+            .loading-steps {
+                bottom: 60px;
+                width: 95%;
+                max-width: 350px;
+            }
+
+            .loading-step {
+                padding: 0.4rem 0.8rem;
+                margin-bottom: 0.4rem;
+                font-size: 0.8rem;
+                border-radius: 6px;
+            }
+
+            .loading-step-icon {
+                font-size: 0.9rem;
+                margin-right: 0.6rem;
+            }
+
+            .loading-greeting {
+                margin-top: 1.5rem;
+                padding: 0 1rem;
+            }
+
+            .greeting-logo {
+                font-size: 2.5rem;
+                margin-bottom: 0.8rem;
+            }
+
+            .greeting-text {
+                font-size: 1.2rem;
+                margin-bottom: 0.4rem;
+                transform: translateX(-60px); /* Smaller offset for mobile */
+            }
+
+            .greeting-subtext {
+                font-size: 0.9rem;
+                line-height: 1.4;
+                transform: translateX(-60px); /* Smaller offset for mobile */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .loading-screen {
+                padding: 1.5rem 0.8rem;
+            }
+
+            .loading-step {
+                padding: 0.7rem 0.8rem;
+                margin-bottom: 0.6rem;
+                font-size: 0.85rem;
+                border-radius: 10px;
+            }
+
+            .loading-step-icon {
+                font-size: 1.1rem;
+                margin-right: 0.6rem;
+            }
+
+            .greeting-logo {
+                font-size: 2rem;
+                margin-bottom: 0.6rem;
+            }
+
+            .greeting-text {
+                font-size: 1.1rem;
+                margin-bottom: 0.3rem;
+                transform: translateX(-50px); /* Even smaller for small screens */
+            }
+
+            .greeting-subtext {
+                font-size: 0.8rem;
+                line-height: 1.3;
+                padding: 0 0.5rem;
+                transform: translateX(-50px); /* Even smaller for small screens */
+            }
+        }
+
+        @media (max-width: 360px) {
+            .loading-step {
+                padding: 0.6rem 0.7rem;
+                font-size: 0.8rem;
+            }
+
+            .loading-step-icon {
+                font-size: 1rem;
+                margin-right: 0.5rem;
+            }
+
+            .greeting-logo {
+                font-size: 1.8rem;
+            }
+
+            .greeting-text {
+                font-size: 1rem;
+                transform: translateX(-40px); /* Smallest offset for tiny screens */
+            }
+
+            .greeting-subtext {
+                font-size: 0.75rem;
+                transform: translateX(-40px); /* Smallest offset for tiny screens */
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+
+        <div class="loading-steps" id="loadingSteps">
+            <div class="loading-step">
+                <span class="loading-step-icon">🤖</span>
+                <span data-tr="AI sistemleri başlatılıyor..." data-en="Initializing AI systems..." data-mk="Се иницијализираат AI системи..." data-bs="Inicijalizuju se AI sistemi...">AI sistemleri başlatılıyor...</span>
+            </div>
+            <div class="loading-step">
+                <span class="loading-step-icon">🔒</span>
+                <span data-tr="Güvenlik protokolleri aktif..." data-en="Activating security..." data-mk="Се активира безбедност..." data-bs="Aktivira se sigurnost...">Güvenlik protokolleri aktif...</span>
+            </div>
+            <div class="loading-step">
+                <span class="loading-step-icon">✨</span>
+                <span data-tr="Arayüz hazırlanıyor..." data-en="Preparing interface..." data-mk="Се подготвува интерфејс..." data-bs="Priprema se interfejs...">Arayüz hazırlanıyor...</span>
+            </div>
+        </div>
+
+        <div class="loading-greeting" id="loadingGreeting">
+            <div class="greeting-logo" data-tr="SoftverAI" data-en="SoftverAI" data-mk="СофтверАИ" data-bs="SoftverAI">SoftverAI</div>
+            <div class="greeting-text" data-tr="Hoş geldiniz!" data-en="Welcome!" data-mk="Добре дојдовте!" data-bs="Dobrodošli!">Hoş geldiniz!</div>
+            <div class="greeting-subtext" data-tr="Yapay zeka ile geleceği şekillendirmeye hazırız" data-en="Ready to shape the future with AI" data-mk="Готови сме да ја обликуваме биднината со ВИ" data-bs="Spremni smo oblikovati budućnost sa AI">Yapay zeka ile geleceği şekillendirmeye hazırız</div>
+        </div>
+    </div>
+
+    <!-- Particles Background -->
+    <div id="particles-js"></div>
+
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav container">
+            <a href="#" class="logo-nav" onclick="location.reload()" data-tr="SoftverAI" data-en="SoftverAI" data-mk="СофтверАИ" data-bs="SoftverAI">SoftverAI</a>
+            <button class="mobile-menu-toggle" id="mobileMenuToggle">☰</button>
+            <div class="nav-controls" id="navControls">
+                <div class="lang-dropdown" id="langDropdown">
+                    <div class="lang-toggle" id="langToggle">
+                        <span class="lang-current">
+                            <span class="lang-flag">🇹🇷</span>
+                        </span>
+                        <span class="lang-arrow">▼</span>
+                    </div>
+                    <div class="lang-options" id="langOptions">
+                        <div class="lang-option active" data-lang="tr">
+                            <span class="lang-flag">🇹🇷</span>
+                        </div>
+                        <div class="lang-option" data-lang="en">
+                            <span class="lang-flag">🇺🇸</span>
+                        </div>
+                        <div class="lang-option" data-lang="mk">
+                            <span class="lang-flag">🇲🇰</span>
+                        </div>
+                        <div class="lang-option" data-lang="bs">
+                            <span class="lang-flag">🇧🇦</span>
+                        </div>
+                    </div>
+                </div>
+                <button class="theme-toggle" id="themeToggle">🌙</button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1 class="hero-title fade-in" data-tr="SoftverAI" data-en="SoftverAI" data-mk="СофтверАИ" data-bs="SoftverAI">SoftverAI</h1>
+            <p class="hero-tagline fade-in" data-tr="AI Destekli Yazılım Çözümleri" data-en="AI-Powered Software Solutions" data-mk="Софтверски решенија поддржани од ВИ" data-bs="Softverska rješenja podržana AI-jem">AI Destekli Yazılım Çözümleri</p>
+            <p class="hero-description fade-in" data-tr="Yapay zeka teknolojileri ile işletmenizi geleceğe taşıyoruz. Modern yazılım çözümleri ve akıllı sistemlerle dijital dönüşümünüzü hızlandırın." data-en="We bring your business to the future with artificial intelligence technologies. Accelerate your digital transformation with modern software solutions and smart systems." data-mk="Го носиме вашиот бизнис во иднината со технологии на вештачка интелигенција. Забрзете ја вашата дигитална трансформација со модерни софтверски решенија и интелигентни системи." data-bs="Donosimo vaš biznis u budućnost sa tehnologijama umjetne inteligencije. Ubrzajte vašu digitalnu transformaciju sa modernim softverskim rješenjima i pametnim sistemima.">
+                Yapay zeka teknolojileri ile işletmenizi geleceğe taşıyoruz. Modern yazılım çözümleri ve akıllı sistemlerle dijital dönüşümünüzü hızlandırın.
+            </p>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services">
+        <div class="container">
+            <h2 class="section-title fade-in" data-tr="Hizmetlerimiz" data-en="Our Services" data-mk="Наши услуги" data-bs="Naše usluge">Hizmetlerimiz</h2>
+            <div class="services-grid">
+                <div class="service-card fade-in" data-tech="ai">
+                    <span class="service-icon">🤖</span>
+                    <h3 class="service-title" data-tr="AI & Machine Learning" data-en="AI & Machine Learning" data-mk="AI & Machine Learning" data-bs="AI & Machine Learning">AI & Machine Learning</h3>
+                    <p class="service-description" data-tr="Gelişmiş yapay zeka algoritmaları ile akıllı çözümler geliştiriyoruz. Veri analizi, tahmin modelleri ve otomasyon sistemleri." data-en="We develop smart solutions with advanced artificial intelligence algorithms. Data analysis, prediction models and automation systems." data-mk="Развиваме паметни решенија со напредни алгоритми на вештачка интелигенција. Анализа на податоци, модели за предвидување и автоматизирани системи." data-bs="Razvijamo pametna rješenja sa naprednim algoritmima vještačke inteligencije. Analiza podataka, modeli predviđanja i automatizirani sistemi.">
+                        Gelişmiş yapay zeka algoritmaları ile akıllı çözümler geliştiriyoruz. Veri analizi, tahmin modelleri ve otomasyon sistemleri.
+                    </p>
+                </div>
+                <div class="service-card fade-in" data-tech="web">
+                    <span class="service-icon">💻</span>
+                    <h3 class="service-title" data-tr="Web Geliştirme" data-en="Web Development" data-mk="Веб развој" data-bs="Web razvoj">Web Geliştirme</h3>
+                    <p class="service-description" data-tr="Modern web teknolojileri ile hızlı, güvenli ve ölçeklenebilir web uygulamaları geliştiriyoruz." data-en="We develop fast, secure and scalable web applications with modern web technologies." data-mk="Развиваме брзи, безбедни и скалабилни веб апликации со современи веб технологии." data-bs="Razvijamo brze, sigurne i skalabilne web aplikacije sa modernim web tehnologijama.">
+                        Modern web teknolojileri ile hızlı, güvenli ve ölçeklenebilir web uygulamaları geliştiriyoruz.
+                    </p>
+                </div>
+                <div class="service-card fade-in" data-tech="mobile">
+                    <span class="service-icon">📱</span>
+                    <h3 class="service-title" data-tr="Mobil Uygulamalar" data-en="Mobile Applications" data-mk="Мобилни апликации" data-bs="Mobilne aplikacije">Mobil Uygulamalar</h3>
+                    <p class="service-description" data-tr="iOS ve Android platformları için kullanıcı deneyimi odaklı mobil uygulamalar tasarlayıp geliştiriyoruz." data-en="We design and develop user experience-focused mobile applications for iOS and Android platforms." data-mk="Дизајнираме и развиваме мобилни апликации фокусирани на корисничкото искуство за iOS и Android платформи." data-bs="Dizajniramo i razvijamo mobilne aplikacije fokusirane na korisničko iskustvo za iOS i Android platforme.">
+                        iOS ve Android platformları için kullanıcı deneyimi odaklı mobil uygulamalar tasarlayıp geliştiriyoruz.
+                    </p>
+                </div>
+                <div class="service-card fade-in" data-tech="cloud">
+                    <span class="service-icon">☁️</span>
+                    <h3 class="service-title" data-tr="Bulut Çözümleri" data-en="Cloud Solutions" data-mk="Cloud решенија" data-bs="Cloud rješenja">Bulut Çözümleri</h3>
+                    <p class="service-description" data-tr="AWS, Azure ve Google Cloud platformlarında ölçeklenebilir ve güvenli bulut altyapıları kuruyoruz." data-en="We build scalable and secure cloud infrastructures on AWS, Azure and Google Cloud platforms." data-mk="Градиме скалабилни и безбедни cloud инфраструктури на AWS, Azure и Google Cloud платформи." data-bs="Gradimo skalabilne i sigurne cloud infrastrukture na AWS, Azure i Google Cloud platformama.">
+                        AWS, Azure ve Google Cloud platformlarında ölçeklenebilir ve güvenli bulut altyapıları kuruyoruz.
+                    </p>
+                </div>
+                <div class="service-card fade-in" data-tech="security">
+                    <span class="service-icon">🔒</span>
+                    <h3 class="service-title" data-tr="Siber Güvenlik" data-en="Cybersecurity" data-mk="Кибербезбедност" data-bs="Kibersigurnost">Siber Güvenlik</h3>
+                    <p class="service-description" data-tr="Şirketinizin dijital varlıklarını korumak için kapsamlı güvenlik çözümleri ve danışmanlık hizmeti sunuyoruz." data-en="We provide comprehensive security solutions and consulting services to protect your company's digital assets." data-mk="Обезбедуваме сеопфатни безбедносни решенија и консултантски сервиси за заштита на дигиталните средства на вашата компанија." data-bs="Pružamo sveobuhvatna sigurnosna rješenja i konsultantske usluge za zaštitu digitalnih sredstava vaše kompanije.">
+                        Şirketinizin dijital varlıklarını korumak için kapsamlı güvenlik çözümleri ve danışmanlık hizmeti sunuyoruz.
+                    </p>
+                </div>
+                <div class="service-card fade-in" data-tech="data">
+                    <span class="service-icon">📊</span>
+                    <h3 class="service-title" data-tr="Veri Analizi" data-en="Data Analytics" data-mk="Аналитика на податоци" data-bs="Analitika podataka">Veri Analizi</h3>
+                    <p class="service-description" data-tr="Büyük veriden anlamlı içgörüler çıkararak iş süreçlerinizi optimize eden raporlama ve analiz sistemleri." data-en="Reporting and analysis systems that optimize your business processes by extracting meaningful insights from big data." data-mk="Системи за рапортирање и анализа кои ги оптимизираат вашите бизнис процеси со екстракција на значајни увиди од големи податоци." data-bs="Sistemi za izvještavanje i analizu koji optimizuju vaše poslovne procese izvlačenjem značajnih uvida iz velikih podataka.">
+                        Büyük veriden anlamlı içgörüler çıkararak iş süreçlerinizi optimize eden raporlama ve analiz sistemleri.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Floating Contact Button -->
+    <div class="floating-contact">
+        <button class="contact-fab" id="contactFab" onclick="openContactModal()">
+            💬
+        </button>
+    </div>
+
+    <!-- Contact Modal -->
+    <div class="contact-modal" id="contactModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" data-tr="Hızlı İletişim" data-en="Quick Contact" data-mk="Брз контакт" data-bs="Brzi kontakt">Hızlı İletişim</h3>
+                <button class="modal-close" id="modalClose" onclick="closeContactModal()">✕</button>
+            </div>
+            <form class="modal-form" id="modalContactForm" novalidate>
+                <div class="form-group">
+                    <label for="modalName" data-tr="İsim" data-en="Name" data-mk="Име" data-bs="Ime">İsim</label>
+                    <input type="text" id="modalName" name="name">
+                </div>
+                <div class="form-group">
+                    <label for="modalEmail" data-tr="E-posta" data-en="Email" data-mk="E-mail" data-bs="E-mail">E-posta</label>
+                    <input type="email" id="modalEmail" name="email">
+                    <div class="field-error" id="modalEmailError"></div>
+                </div>
+                <div class="form-group">
+                    <label for="modalPhone" data-tr="Telefon (Opsiyonel)" data-en="Phone (Optional)" data-mk="Телефон (опционално)" data-bs="Telefon (opciono)">Telefon (Opsiyonel)</label>
+                    <div class="phone-input-group">
+                        <div class="custom-select country-select" id="modalCountrySelect">
+                            <select id="modalCountry" name="country">
+                                <option value="+90" data-flag="🇹🇷">+90</option>
+                                <option value="+1" data-flag="🇺🇸">+1</option>
+                                <option value="+44" data-flag="🇬🇧">+44</option>
+                                <option value="+49" data-flag="🇩🇪">+49</option>
+                                <option value="+33" data-flag="🇫🇷">+33</option>
+                                <option value="+39" data-flag="🇮🇹">+39</option>
+                                <option value="+34" data-flag="🇪🇸">+34</option>
+                                <option value="+31" data-flag="🇳🇱">+31</option>
+                                <option value="+32" data-flag="🇧🇪">+32</option>
+                                <option value="+41" data-flag="🇨🇭">+41</option>
+                                <option value="+387" data-flag="🇧🇦">+387</option>
+                                <option value="+389" data-flag="🇲🇰">+389</option>
+                                <option value="+381" data-flag="🇷🇸">+381</option>
+                                <option value="+382" data-flag="🇲🇪">+382</option>
+                                <option value="+385" data-flag="🇭🇷">+385</option>
+                                <option value="+386" data-flag="🇸🇮">+386</option>
+                                <option value="+383" data-flag="🇽🇰">+383</option>
+                                <option value="+355" data-flag="🇦🇱">+355</option>
+                                <option value="+30" data-flag="🇬🇷">+30</option>
+                                <option value="+359" data-flag="🇧🇬">+359</option>
+                            </select>
+                            <div class="select-trigger" tabindex="0">
+                                <span class="select-text">🇹🇷 +90</span>
+                                <span class="select-arrow">▼</span>
+                            </div>
+                            <div class="select-options">
+                                <div class="select-option selected" data-value="+90">
+                                    <span>🇹🇷 +90 Turkey</span>
+                                </div>
+                                <div class="select-option" data-value="+1">
+                                    <span>🇺🇸 +1 USA</span>
+                                </div>
+                                <div class="select-option" data-value="+44">
+                                    <span>🇬🇧 +44 UK</span>
+                                </div>
+                                <div class="select-option" data-value="+49">
+                                    <span>🇩🇪 +49 Germany</span>
+                                </div>
+                                <div class="select-option" data-value="+33">
+                                    <span>🇫🇷 +33 France</span>
+                                </div>
+                                <div class="select-option" data-value="+39">
+                                    <span>🇮🇹 +39 Italy</span>
+                                </div>
+                                <div class="select-option" data-value="+34">
+                                    <span>🇪🇸 +34 Spain</span>
+                                </div>
+                                <div class="select-option" data-value="+31">
+                                    <span>🇳🇱 +31 Netherlands</span>
+                                </div>
+                                <div class="select-option" data-value="+32">
+                                    <span>🇧🇪 +32 Belgium</span>
+                                </div>
+                                <div class="select-option" data-value="+41">
+                                    <span>🇨🇭 +41 Switzerland</span>
+                                </div>
+                                <div class="select-option" data-value="+387">
+                                    <span>🇧🇦 +387 Bosnia</span>
+                                </div>
+                                <div class="select-option" data-value="+389">
+                                    <span>🇲🇰 +389 Macedonia</span>
+                                </div>
+                                <div class="select-option" data-value="+381">
+                                    <span>🇷🇸 +381 Serbia</span>
+                                </div>
+                                <div class="select-option" data-value="+382">
+                                    <span>🇲🇪 +382 Montenegro</span>
+                                </div>
+                                <div class="select-option" data-value="+385">
+                                    <span>🇭🇷 +385 Croatia</span>
+                                </div>
+                                <div class="select-option" data-value="+386">
+                                    <span>🇸🇮 +386 Slovenia</span>
+                                </div>
+                                <div class="select-option" data-value="+383">
+                                    <span>🇽🇰 +383 Kosovo</span>
+                                </div>
+                                <div class="select-option" data-value="+355">
+                                    <span>🇦🇱 +355 Albania</span>
+                                </div>
+                                <div class="select-option" data-value="+30">
+                                    <span>🇬🇷 +30 Greece</span>
+                                </div>
+                                <div class="select-option" data-value="+359">
+                                    <span>🇧🇬 +359 Bulgaria</span>
+                                </div>
+                            </div>
+                        </div>
+                        <input type="tel" id="modalPhone" name="phone" placeholder="555 123 45 67">
+                    </div>
+                    <div class="field-error" id="modalPhoneError"></div>
+                </div>
+                <div class="form-group">
+                    <label for="modalSubject" data-tr="Konu" data-en="Subject" data-mk="Предмет" data-bs="Predmet">Konu</label>
+                    <div class="custom-select" id="modalCustomSubject">
+                        <select id="modalSubject" name="subject">
+                            <option value="" data-tr="Konu seçin" data-en="Select subject" data-mk="Изберете предмет" data-bs="Izaberite predmet">Konu seçin</option>
+                            <option value="general" data-tr="Genel Soru" data-en="General Inquiry" data-mk="Општо прашање" data-bs="Opšte pitanje">Genel Soru</option>
+                            <option value="business" data-tr="İş Teklifi" data-en="Business Proposal" data-mk="Бизнис предлог" data-bs="Poslovni prijedlog">İş Teklifi</option>
+                            <option value="support" data-tr="Teknik Destek" data-en="Technical Support" data-mk="Техничка поддршка" data-bs="Tehnička podrška">Teknik Destek</option>
+                            <option value="partnership" data-tr="Ortaklık" data-en="Partnership" data-mk="Партнерство" data-bs="Partnerstvo">Ortaklık</option>
+                        </select>
+                        <div class="select-trigger" tabindex="0">
+                            <span class="select-text placeholder" data-tr="Konu seçin" data-en="Select subject" data-mk="Изберете предмет" data-bs="Izaberite predmet">Konu seçin</span>
+                            <span class="select-arrow">▼</span>
+                        </div>
+                        <div class="select-options">
+                            <div class="select-option" data-value="general">
+                                <span data-tr="Genel Soru" data-en="General Inquiry" data-mk="Општо прашање" data-bs="Opšte pitanje">Genel Soru</span>
+                            </div>
+                            <div class="select-option" data-value="business">
+                                <span data-tr="İş Teklifi" data-en="Business Proposal" data-mk="Бизнис предлог" data-bs="Poslovni prijedlog">İş Teklifi</span>
+                            </div>
+                            <div class="select-option" data-value="support">
+                                <span data-tr="Teknik Destek" data-en="Technical Support" data-mk="Техничка поддршка" data-bs="Tehnička podrška">Teknik Destek</span>
+                            </div>
+                            <div class="select-option" data-value="partnership">
+                                <span data-tr="Ortaklık" data-en="Partnership" data-mk="Партнерство" data-bs="Partnerstvo">Ortaklık</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="modalMessage" data-tr="Mesaj" data-en="Message" data-mk="Порака" data-bs="Poruka">Mesaj</label>
+                    <textarea id="modalMessage" name="message" rows="4"></textarea>
+                </div>
+                <button type="submit" class="submit-btn" id="modalSubmitBtn">
+                    <span data-tr="Mesaj Gönder" data-en="Send Message" data-mk="Прати порака" data-bs="Pošalji poruku">Mesaj Gönder</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Technology Info Modal -->
+    <div class="tech-modal" id="techModal">
+        <div class="tech-modal-content">
+            <button class="tech-modal-close" onclick="closeTechModal()">✕</button>
+            <div class="tech-modal-body" id="techModalBody">
+                <!-- Content will be dynamically inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <div class="footer-logo" data-tr="SoftverAI" data-en="SoftverAI" data-mk="СофтверАИ" data-bs="SoftverAI">SoftverAI</div>
+                    <p class="footer-description" data-tr="Yapay zeka teknolojileri ile geleceği şekillendiriyoruz." data-en="Shaping the future with artificial intelligence technologies." data-mk="Го обликуваме биднината со технологии на вештачка интелигенција." data-bs="Oblikujemo budućnost sa tehnologijama vještačke inteligencije.">
+                        Yapay zeka teknolojileri ile geleceği şekillendiriyoruz.
+                    </p>
+                </div>
+                <div class="footer-links">
+                    <h4 data-tr="İletişim" data-en="Contact" data-mk="Контакт" data-bs="Kontakt">İletişim</h4>
+                    <div class="social-links">
+                        <a href="mailto:info@softverai.com" class="social-link" title="Email">📧</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p data-tr="© 2024 SoftverAI. Tüm hakları saklıdır." data-en="© 2024 SoftverAI. All rights reserved." data-mk="© 2024 SoftverAI. Сите права се задржани." data-bs="© 2024 SoftverAI. Sva prava zadržana.">© 2024 SoftverAI. Tüm hakları saklıdır.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Configuration
+        const ENABLE_LOADING_SCREEN = true; // Set to false to disable loading screen
+
+        // Hide loading screen immediately if disabled
+        if (!ENABLE_LOADING_SCREEN) {
+            const loadingScreen = document.getElementById('loadingScreen');
+            if (loadingScreen) {
+                loadingScreen.style.display = 'none';
+            }
+        }
+
+        // Loading screen with steps and sound
+        window.addEventListener('load', function() {
+            if (ENABLE_LOADING_SCREEN) {
+                startLoadingSequence();
+            }
+        });
+
+        function playStepSound(stepIndex) {
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+                if (audioContext.state === 'suspended') {
+                    audioContext.resume();
+                }
+
+                // Different sounds for different steps
+                const stepSounds = [
+                    // Step 0: AI systems - Futuristic startup
+                    { freq1: 880, freq2: 1320, duration: 0.2, gain: 0.07 },
+                    // Step 1: Security - Alert/secure sound
+                    { freq1: 698, freq2: 932, duration: 0.18, gain: 0.06 },
+                    // Step 2: Interface - Ready sound
+                    { freq1: 523, freq2: 880, duration: 0.15, gain: 0.08 }
+                ];
+
+                const sound = stepSounds[stepIndex] || stepSounds[0];
+
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+
+                oscillator.frequency.setValueAtTime(sound.freq1, audioContext.currentTime);
+                oscillator.frequency.exponentialRampToValueAtTime(sound.freq2, audioContext.currentTime + sound.duration);
+
+                gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+                gainNode.gain.linearRampToValueAtTime(sound.gain, audioContext.currentTime + 0.01);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + sound.duration);
+
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + sound.duration);
+
+                console.log(`Step ${stepIndex} sound played`);
+            } catch (e) {
+                console.log('Audio not supported or blocked:', e.message);
+            }
+        }
+
+        function playCompletionSound() {
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+                if (audioContext.state === 'suspended') {
+                    audioContext.resume();
+                }
+
+                // Success chord sequence - multiple oscillators for richer sound
+                const frequencies = [523, 659, 784, 1047]; // C major chord
+                const duration = 0.4;
+
+                frequencies.forEach((freq, index) => {
+                    const oscillator = audioContext.createOscillator();
+                    const gainNode = audioContext.createGain();
+
+                    oscillator.connect(gainNode);
+                    gainNode.connect(audioContext.destination);
+
+                    oscillator.frequency.setValueAtTime(freq, audioContext.currentTime);
+
+                    const startDelay = index * 0.05; // Stagger the notes slightly
+                    const noteGain = 0.04 / (index + 1); // Lower volume for higher notes
+
+                    gainNode.gain.setValueAtTime(0, audioContext.currentTime + startDelay);
+                    gainNode.gain.linearRampToValueAtTime(noteGain, audioContext.currentTime + startDelay + 0.02);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + startDelay + duration);
+
+                    oscillator.start(audioContext.currentTime + startDelay);
+                    oscillator.stop(audioContext.currentTime + startDelay + duration);
+                });
+
+                console.log('Completion chord played');
+            } catch (e) {
+                console.log('Audio not supported or blocked:', e.message);
+            }
+        }
+
+        function startLoadingSequence() {
+            const steps = document.querySelectorAll('.loading-step');
+            let currentStep = 0;
+
+            function nextStep() {
+                if (currentStep > 0) {
+                    steps[currentStep - 1].classList.remove('active');
+                    steps[currentStep - 1].classList.add('completed');
+                }
+
+                if (currentStep < steps.length) {
+                    steps[currentStep].classList.add('active');
+                    playStepSound(currentStep);
+
+                    currentStep++;
+
+                    // Random delay between 500-900ms for more dramatic feel
+                    const delay = 500 + Math.random() * 400;
+                    setTimeout(nextStep, delay);
+                } else {
+                    // All steps completed, show greeting
+                    setTimeout(() => {
+                        playCompletionSound();
+                        showGreeting();
+                    }, 500);
+                }
+            }
+
+            // Start the sequence
+            setTimeout(nextStep, 300);
+        }
+
+        function showGreeting() {
+            const steps = document.getElementById('loadingSteps');
+            const greeting = document.getElementById('loadingGreeting');
+            const logo = greeting.querySelector('.greeting-logo');
+            const text = greeting.querySelector('.greeting-text');
+            const subtext = greeting.querySelector('.greeting-subtext');
+
+            // First: Hide steps with smooth fade
+            steps.style.transition = 'all 0.6s ease';
+            steps.style.opacity = '0';
+            steps.style.transform = 'translateY(-30px)';
+
+            setTimeout(() => {
+                // Hide steps completely and show greeting container
+                steps.style.display = 'none';
+                greeting.classList.add('show');
+
+                // All animations start together for parallel effect
+                setTimeout(() => {
+                    // Logo zoom-in
+                    logo.classList.add('zoom-in');
+                    // Welcome text slide (same time)
+                    text.classList.add('slide-in');
+                    // Subtext slide (slight delay for layered effect)
+                    setTimeout(() => {
+                        subtext.classList.add('slide-in');
+                    }, 150); // Very small stagger just for depth
+                }, 200);
+
+                // Auto-transition to main site
+                setTimeout(() => {
+                    document.getElementById('loadingScreen').classList.add('hidden');
+                }, 3000); // Shorter time since animations are parallel
+            }, 600);
+        }
+
+        // Particles.js configuration
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof particlesJS !== 'undefined') {
+                particlesJS("particles-js", {
+                    "particles": {
+                        "number": {
+                            "value": 80,
+                            "density": {
+                                "enable": true,
+                                "value_area": 800
+                            }
+                        },
+                        "color": {
+                            "value": ["#00d4ff", "#74b9ff", "#ffffff"]
+                        },
+                        "shape": {
+                            "type": "circle",
+                            "stroke": {
+                                "width": 0,
+                                "color": "#000000"
+                            }
+                        },
+                        "opacity": {
+                            "value": 0.5,
+                            "random": true,
+                            "anim": {
+                                "enable": true,
+                                "speed": 1,
+                                "opacity_min": 0.2,
+                                "sync": false
+                            }
+                        },
+                        "size": {
+                            "value": 4,
+                            "random": true,
+                            "anim": {
+                                "enable": true,
+                                "speed": 2,
+                                "size_min": 1,
+                                "sync": false
+                            }
+                        },
+                        "line_linked": {
+                            "enable": true,
+                            "distance": 120,
+                            "color": "#00d4ff",
+                            "opacity": 0.3,
+                            "width": 1.5
+                        },
+                        "move": {
+                            "enable": true,
+                            "speed": 2,
+                            "direction": "none",
+                            "random": false,
+                            "straight": false,
+                            "out_mode": "out",
+                            "bounce": false,
+                            "attract": {
+                                "enable": false,
+                                "rotateX": 600,
+                                "rotateY": 1200
+                            }
+                        }
+                    },
+                    "interactivity": {
+                        "detect_on": "canvas",
+                        "events": {
+                            "onhover": {
+                                "enable": true,
+                                "mode": "repulse"
+                            },
+                            "onclick": {
+                                "enable": true,
+                                "mode": "push"
+                            },
+                            "resize": true
+                        },
+                        "modes": {
+                            "grab": {
+                                "distance": 400,
+                                "line_linked": {
+                                    "opacity": 1
+                                }
+                            },
+                            "bubble": {
+                                "distance": 400,
+                                "size": 40,
+                                "duration": 2,
+                                "opacity": 8,
+                                "speed": 3
+                            },
+                            "repulse": {
+                                "distance": 100,
+                                "duration": 0.4
+                            },
+                            "push": {
+                                "particles_nb": 4
+                            },
+                            "remove": {
+                                "particles_nb": 2
+                            }
+                        }
+                    },
+                    "retina_detect": true
+                });
+            }
+        });
+
+        // EmailJS initialization
+        (function() {
+            emailjs.init("YOUR_PUBLIC_KEY"); // EmailJS public key buraya gelecek
+        })();
+
+        // Language switching
+        const langDropdown = document.getElementById('langDropdown');
+        const langToggle = document.getElementById('langToggle');
+        const langOptions = document.getElementById('langOptions');
+        let currentLang = localStorage.getItem('language') || 'tr';
+
+        // Language data
+        const languages = {
+            tr: { flag: '🇹🇷', code: 'TR', name: 'Türkçe' },
+            en: { flag: '🇺🇸', code: 'EN', name: 'English' },
+            mk: { flag: '🇲🇰', code: 'MK', name: 'Македонски' },
+            bs: { flag: '🇧🇦', code: 'BS', name: 'Bosanski' }
+        };
+
+        function updateLanguageUI(lang) {
+            const langData = languages[lang];
+            const langCurrent = langToggle.querySelector('.lang-current');
+            langCurrent.innerHTML = `
+                <span class="lang-flag">${langData.flag}</span>
+            `;
+
+            // Update active option
+            document.querySelectorAll('.lang-option').forEach(option => {
+                option.classList.remove('active');
+                if (option.dataset.lang === lang) {
+                    option.classList.add('active');
+                }
+            });
+        }
+
+        // Update validation messages based on current language
+        function updateValidationMessages() {
+            try {
+                const errorElements = document.querySelectorAll('.field-error');
+
+                errorElements.forEach(errorEl => {
+                    if (errorEl.textContent.trim() === '') return; // Skip empty errors
+
+                    const fieldId = errorEl.id.replace('Error', '');
+                    const input = document.getElementById(fieldId);
+
+                    if (!input) return;
+
+                    // Check what type of validation error this field has
+                    const value = input.value.trim();
+
+                    if (fieldId === 'modalName' && !value) {
+                        errorEl.textContent = currentLang === 'tr' ? 'İsim alanı zorunludur' : 'Name field is required';
+                    } else if (fieldId === 'modalEmail' && (!value || (typeof validateEmail === 'function' && !validateEmail(value)))) {
+                        errorEl.textContent = currentLang === 'tr' ? 'Geçerli bir e-posta adresi girin' : 'Enter a valid email address';
+                    } else if (fieldId === 'modalSubject' && !document.getElementById('modalSubject').value) {
+                        errorEl.textContent = currentLang === 'tr' ? 'Konu seçmeniz gerekiyor' : 'Please select a subject';
+                    } else if (fieldId === 'modalMessage' && !value) {
+                        errorEl.textContent = currentLang === 'tr' ? 'Mesaj alanı zorunludur' : 'Message field is required';
+                    } else if (fieldId === 'modalPhone' && value && typeof validatePhone === 'function' && !validatePhone(value, document.getElementById('modalCountry').value)) {
+                        errorEl.textContent = currentLang === 'tr' ? 'Geçerli bir telefon numarası girin' : 'Enter a valid phone number';
+                    }
+                });
+            } catch (error) {
+                console.warn('Error updating validation messages:', error);
+            }
+        }
+
+        function updateLanguage(lang) {
+            document.querySelectorAll('[data-tr]').forEach(element => {
+                if (element.tagName === 'OPTION') {
+                    element.textContent = element.getAttribute('data-' + lang);
+                } else {
+                    element.textContent = element.getAttribute('data-' + lang);
+                }
+            });
+
+            // Update current language
+            currentLang = lang;
+
+            // Update any existing validation messages
+            updateValidationMessages();
+
+            localStorage.setItem('language', lang);
+            updateLanguageUI(lang);
+            langDropdown.classList.remove('open');
+        }
+
+        // Toggle dropdown
+        langToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            langDropdown.classList.toggle('open');
+        });
+
+        // Language option selection
+        langOptions.addEventListener('click', (e) => {
+            const option = e.target.closest('.lang-option');
+            if (option) {
+                const selectedLang = option.dataset.lang;
+                updateLanguage(selectedLang);
+            }
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', () => {
+            langDropdown.classList.remove('open');
+        });
+
+        // Initialize language
+        updateLanguage(currentLang);
+
+        // Mobile menu toggle
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const navControls = document.getElementById('navControls');
+
+        mobileMenuToggle.addEventListener('click', () => {
+            navControls.classList.toggle('mobile-show');
+            mobileMenuToggle.textContent = navControls.classList.contains('mobile-show') ? '✕' : '☰';
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.nav') && window.innerWidth <= 768) {
+                navControls.classList.remove('mobile-show');
+                mobileMenuToggle.textContent = '☰';
+            }
+        });
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                navControls.classList.remove('mobile-show');
+                mobileMenuToggle.textContent = '☰';
+            }
+        });
+
+        // Theme toggle with automatic time-based detection
+        const themeToggle = document.getElementById('themeToggle');
+
+        // Function to get theme based on local time
+        function getAutoTheme() {
+            const hour = new Date().getHours();
+            // Dark theme between 6 PM (18:00) and 6 AM (06:00)
+            return (hour >= 18 || hour < 6) ? 'dark' : 'light';
+        }
+
+        // Get current theme: stored preference or auto-detect based on time
+        const storedTheme = localStorage.getItem('theme');
+        const currentTheme = storedTheme || getAutoTheme();
+
+        if (currentTheme === 'dark') {
+            document.body.setAttribute('data-theme', 'dark');
+            themeToggle.textContent = '☀️';
+        }
+
+        themeToggle.addEventListener('click', () => {
+            const isDark = document.body.getAttribute('data-theme') === 'dark';
+            if (isDark) {
+                document.body.removeAttribute('data-theme');
+                themeToggle.textContent = '🌙';
+                localStorage.setItem('theme', 'light');
+            } else {
+                document.body.setAttribute('data-theme', 'dark');
+                themeToggle.textContent = '☀️';
+                localStorage.setItem('theme', 'dark');
+            }
+        });
+
+        // Update theme every hour for auto-detection when no manual preference is set
+        setInterval(() => {
+            const storedTheme = localStorage.getItem('theme');
+            if (!storedTheme) { // Only auto-update if user hasn't manually set a preference
+                const autoTheme = getAutoTheme();
+                const currentTheme = document.body.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+
+                if (autoTheme !== currentTheme) {
+                    if (autoTheme === 'dark') {
+                        document.body.setAttribute('data-theme', 'dark');
+                        themeToggle.textContent = '☀️';
+                    } else {
+                        document.body.removeAttribute('data-theme');
+                        themeToggle.textContent = '🌙';
+                    }
+                }
+            }
+        }, 60 * 60 * 1000); // Check every hour
+
+        // Custom Select functionality
+        function initCustomSelect() {
+            const customSelect = document.getElementById('customSubject');
+            const selectTrigger = customSelect.querySelector('.select-trigger');
+            const selectOptions = customSelect.querySelector('.select-options');
+            const selectText = customSelect.querySelector('.select-text');
+            const hiddenSelect = customSelect.querySelector('select');
+
+            // Toggle dropdown
+            selectTrigger.addEventListener('click', () => {
+                customSelect.classList.toggle('open');
+                selectTrigger.classList.toggle('active');
+            });
+
+            // Handle option selection
+            selectOptions.addEventListener('click', (e) => {
+                const option = e.target.closest('.select-option');
+                if (option) {
+                    const value = option.dataset.value;
+                    const text = option.querySelector('span').textContent;
+
+                    // Update trigger text
+                    selectText.textContent = text;
+                    selectText.classList.remove('placeholder');
+
+                    // Update hidden select
+                    hiddenSelect.value = value;
+
+                    // Update selected state
+                    selectOptions.querySelectorAll('.select-option').forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    option.classList.add('selected');
+
+                    // Close dropdown
+                    customSelect.classList.remove('open');
+                    selectTrigger.classList.remove('active');
+                }
+            });
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!customSelect.contains(e.target)) {
+                    customSelect.classList.remove('open');
+                    selectTrigger.classList.remove('active');
+                }
+            });
+
+            // Keyboard navigation
+            selectTrigger.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    customSelect.classList.toggle('open');
+                    selectTrigger.classList.toggle('active');
+                }
+            });
+        }
+
+        // Simple modal functions
+        function openContactModal() {
+            console.log('Opening modal...');
+            const modal = document.getElementById('contactModal');
+            if (modal) {
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeContactModal() {
+            console.log('Closing modal...');
+            const modal = document.getElementById('contactModal');
+            if (modal) {
+                modal.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        }
+
+        // Wait for DOM to be fully loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize modal functionality
+            initFloatingContactModal();
+
+            // Initialize custom selects only if they exist
+            const customSubject = document.getElementById('customSubject');
+            if (customSubject) {
+                initCustomSelect();
+            }
+        });
+
+        // Initialize custom select
+        function initCustomSelect() {
+            const customSelect = document.getElementById('customSubject');
+            if (!customSelect) return; // Element doesn't exist on this page
+
+            const selectTrigger = customSelect.querySelector('.select-trigger');
+            const selectOptions = customSelect.querySelector('.select-options');
+            const selectText = customSelect.querySelector('.select-text');
+            const hiddenSelect = customSelect.querySelector('select');
+
+            // Toggle dropdown
+            selectTrigger.addEventListener('click', () => {
+                customSelect.classList.toggle('open');
+                selectTrigger.classList.toggle('active');
+            });
+
+            // Handle option selection
+            selectOptions.addEventListener('click', (e) => {
+                const option = e.target.closest('.select-option');
+                if (option) {
+                    const value = option.dataset.value;
+                    const text = option.querySelector('span').textContent;
+
+                    selectText.textContent = text;
+                    selectText.classList.remove('placeholder');
+                    hiddenSelect.value = value;
+
+                    selectOptions.querySelectorAll('.select-option').forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    option.classList.add('selected');
+
+                    customSelect.classList.remove('open');
+                    selectTrigger.classList.remove('active');
+                }
+            });
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!customSelect.contains(e.target)) {
+                    customSelect.classList.remove('open');
+                    selectTrigger.classList.remove('active');
+                }
+            });
+
+            // Keyboard navigation
+            selectTrigger.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    customSelect.classList.toggle('open');
+                    selectTrigger.classList.toggle('active');
+                }
+            });
+        }
+
+        // Initialize modal custom select
+        function initModalCustomSelect() {
+            const customSelect = document.getElementById('modalCustomSubject');
+            if (!customSelect) {
+                console.error('modalCustomSubject not found');
+                return;
+            }
+
+            const selectTrigger = customSelect.querySelector('.select-trigger');
+            const selectOptions = customSelect.querySelector('.select-options');
+            const selectText = customSelect.querySelector('.select-text');
+            const hiddenSelect = customSelect.querySelector('select');
+
+            if (!selectTrigger || !selectOptions || !selectText || !hiddenSelect) {
+                console.error('Modal custom select elements not found:', {
+                    selectTrigger, selectOptions, selectText, hiddenSelect
+                });
+                return;
+            }
+
+            // Toggle dropdown
+            selectTrigger.addEventListener('click', () => {
+                customSelect.classList.toggle('open');
+                selectTrigger.classList.toggle('active');
+            });
+
+            // Handle option selection
+            selectOptions.addEventListener('click', (e) => {
+                const option = e.target.closest('.select-option');
+                if (option) {
+                    const value = option.dataset.value;
+                    const text = option.querySelector('span').textContent;
+
+                    selectText.textContent = text;
+                    selectText.classList.remove('placeholder');
+                    hiddenSelect.value = value;
+
+                    selectOptions.querySelectorAll('.select-option').forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    option.classList.add('selected');
+
+                    customSelect.classList.remove('open');
+                    selectTrigger.classList.remove('active');
+                }
+            });
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!customSelect.contains(e.target)) {
+                    customSelect.classList.remove('open');
+                    selectTrigger.classList.remove('active');
+                }
+            });
+
+            // Keyboard navigation
+            selectTrigger.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    customSelect.classList.toggle('open');
+                    selectTrigger.classList.toggle('active');
+                }
+            });
+        }
+
+        // Initialize Floating Contact Modal
+        function initFloatingContactModal() {
+            const contactFab = document.getElementById('contactFab');
+            const contactModal = document.getElementById('contactModal');
+            const modalClose = document.getElementById('modalClose');
+            const modalContactForm = document.getElementById('modalContactForm');
+            const modalSubmitBtn = document.getElementById('modalSubmitBtn');
+
+            // Debug - check if elements exist
+            console.log('contactFab:', contactFab);
+            console.log('contactModal:', contactModal);
+
+            if (!contactFab || !contactModal) {
+                console.error('FAB or Modal elements not found!');
+                return;
+            }
+
+            // Close modal function
+            function closeModal() {
+                contactModal.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
+            // Open modal
+            contactFab.addEventListener('click', (e) => {
+                e.preventDefault();
+                console.log('FAB clicked!');
+                contactModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+
+            // Close modal events
+            if (modalClose) {
+                modalClose.addEventListener('click', closeModal);
+            }
+
+            // Close modal when clicking outside
+            contactModal.addEventListener('click', (e) => {
+                if (e.target === contactModal) {
+                    closeModal();
+                }
+            });
+
+            // Close modal on escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && contactModal.classList.contains('active')) {
+                    closeModal();
+                }
+            });
+
+            // Initialize modal components
+            console.log('Initializing modal components...');
+            initModalCustomSelect();
+            initCountrySelect();
+            console.log('Modal components initialized');
+
+            // Modal form submission
+            if (modalContactForm) {
+                modalContactForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+
+                    // Validate all fields
+                    const name = document.getElementById('modalName').value.trim();
+                    const email = document.getElementById('modalEmail').value.trim();
+                    const phone = document.getElementById('modalPhone').value.trim();
+                    const subject = document.getElementById('modalSubject').value;
+                    const message = document.getElementById('modalMessage').value.trim();
+                    const countryCode = document.getElementById('modalCountry').value;
+
+                    let isValid = true;
+
+                    // Validate name
+                    if (!name) {
+                        showError('modalName', currentLang === 'tr' ? 'İsim alanı zorunludur' : currentLang === 'en' ? 'Name field is required' : currentLang === 'mk' ? 'Полето за име е задолжително' : 'Polje za ime je obavezno');
+                        isValid = false;
+                    } else {
+                        showSuccess('modalName');
+                    }
+
+                    // Validate email
+                    if (!email || !validateEmail(email)) {
+                        showError('modalEmail', currentLang === 'tr' ? 'Geçerli bir e-posta adresi girin' : currentLang === 'en' ? 'Enter a valid email address' : currentLang === 'mk' ? 'Внесете валидна e-mail адреса' : 'Unesite validnu e-mail adresu');
+                        isValid = false;
+                    } else {
+                        showSuccess('modalEmail');
+                    }
+
+                    // Validate subject
+                    if (!subject) {
+                        showError('modalSubject', currentLang === 'tr' ? 'Konu seçmeniz gerekiyor' : currentLang === 'en' ? 'Please select a subject' : currentLang === 'mk' ? 'Молиме изберете предмет' : 'Molimo izaberite predmet');
+                        isValid = false;
+                    } else {
+                        showSuccess('modalSubject');
+                    }
+
+                    // Validate message
+                    if (!message) {
+                        showError('modalMessage', currentLang === 'tr' ? 'Mesaj alanı zorunludur' : currentLang === 'en' ? 'Message field is required' : currentLang === 'mk' ? 'Полето за порака е задолжително' : 'Polje za poruku je obavezno');
+                        isValid = false;
+                    } else {
+                        showSuccess('modalMessage');
+                    }
+
+                    // Validate phone if provided
+                    if (phone && !validatePhone(phone, countryCode)) {
+                        showError('modalPhone', currentLang === 'tr' ? 'Geçerli bir telefon numarası girin' : currentLang === 'en' ? 'Enter a valid phone number' : currentLang === 'mk' ? 'Внесете валиден број на телефон' : 'Unesite validan broj telefona');
+                        isValid = false;
+                    } else if (phone) {
+                        showSuccess('modalPhone');
+                    }
+
+                    if (!isValid) return;
+
+                    modalSubmitBtn.disabled = true;
+                    modalSubmitBtn.innerHTML = '<span data-tr="Gönderiliyor..." data-en="Sending..." data-mk="Се праќа..." data-bs="Šalje se...">Gönderiliyor...</span>';
+
+                    const formData = {
+                        name: name,
+                        email: email,
+                        phone: phone ? countryCode + ' ' + phone : '',
+                        subject: subject,
+                        message: message
+                    };
+
+                    try {
+                        await emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', formData);
+                        alert(currentLang === 'tr' ? 'Mesajınız başarıyla gönderildi!' : currentLang === 'en' ? 'Your message has been sent successfully!' : currentLang === 'mk' ? 'Вашата порака е успешно пратена!' : 'Vaša poruka je uspješno poslana!');
+                        modalContactForm.reset();
+                        // Reset custom selects
+                        document.querySelector('#modalCustomSubject .select-text').textContent =
+                            currentLang === 'tr' ? 'Konu seçin' : currentLang === 'en' ? 'Select subject' : currentLang === 'mk' ? 'Изберете предмет' : 'Izaberite predmet';
+                        document.querySelector('#modalCustomSubject .select-text').classList.add('placeholder');
+                        document.querySelector('#modalCountrySelect .select-text').textContent = '🇹🇷 +90';
+                        closeModal();
+                    } catch (error) {
+                        console.error('Error:', error);
+                        alert(currentLang === 'tr' ? 'Mesaj gönderilirken bir hata oluştu.' : currentLang === 'en' ? 'An error occurred while sending the message.' : currentLang === 'mk' ? 'Настана грешка при праќањето на пораката.' : 'Došlo je do greške prilikom slanja poruke.');
+                    } finally {
+                        modalSubmitBtn.disabled = false;
+                        modalSubmitBtn.innerHTML = '<span data-tr="Mesaj Gönder" data-en="Send Message" data-mk="Прати порака" data-bs="Pošalji poruku">Mesaj Gönder</span>';
+                    }
+                });
+            }
+        }
+
+
+        // Phone number placeholders by country code
+        const phonePlaceholders = {
+            '+90': '555 123 45 67',      // Turkey
+            '+1': '555 123 4567',        // USA/Canada
+            '+44': '7700 900123',        // UK
+            '+49': '1512 3456789',       // Germany
+            '+33': '06 12 34 56 78',     // France
+            '+39': '333 123 4567',       // Italy
+            '+34': '612 34 56 78',       // Spain
+            '+31': '06 12345678',        // Netherlands
+            '+32': '0470 12 34 56',      // Belgium
+            '+41': '079 123 45 67',      // Switzerland
+            '+387': '061 123 456',       // Bosnia
+            '+389': '070 123 456',       // Macedonia
+            '+381': '060 123 4567',      // Serbia
+            '+382': '067 123 456',       // Montenegro
+            '+385': '091 234 5678',      // Croatia
+            '+386': '031 234 567',       // Slovenia
+            '+383': '044 123 456',       // Kosovo
+            '+355': '069 123 4567',      // Albania
+            '+30': '694 123 4567',       // Greece
+            '+359': '087 123 4567'       // Bulgaria
+        };
+
+        // Initialize country select
+        function initCountrySelect() {
+            const customSelect = document.getElementById('modalCountrySelect');
+            if (!customSelect) return;
+
+            const selectTrigger = customSelect.querySelector('.select-trigger');
+            const selectOptions = customSelect.querySelector('.select-options');
+            const selectText = customSelect.querySelector('.select-text');
+            const hiddenSelect = customSelect.querySelector('select');
+            const phoneInput = document.getElementById('modalPhone');
+
+            if (!selectTrigger || !selectOptions || !selectText || !hiddenSelect) {
+                console.error('Country select elements not found:', {
+                    selectTrigger, selectOptions, selectText, hiddenSelect
+                });
+                return;
+            }
+
+            selectTrigger.addEventListener('click', () => {
+                customSelect.classList.toggle('open');
+                selectTrigger.classList.toggle('active');
+            });
+
+            selectOptions.addEventListener('click', (e) => {
+                const option = e.target.closest('.select-option');
+                if (option) {
+                    const value = option.dataset.value;
+                    const text = option.querySelector('span').textContent;
+
+                    selectText.textContent = text.split(' ').slice(0, 2).join(' '); // Flag + code only
+                    hiddenSelect.value = value;
+
+                    // Update phone input placeholder based on country code
+                    if (phoneInput && phonePlaceholders[value]) {
+                        phoneInput.placeholder = phonePlaceholders[value];
+                    }
+
+                    selectOptions.querySelectorAll('.select-option').forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    option.classList.add('selected');
+
+                    customSelect.classList.remove('open');
+                    selectTrigger.classList.remove('active');
+                }
+            });
+
+            document.addEventListener('click', (e) => {
+                if (!customSelect.contains(e.target)) {
+                    customSelect.classList.remove('open');
+                    selectTrigger.classList.remove('active');
+                }
+            });
+
+            // Set initial placeholder for default country (+90 Turkey)
+            if (phoneInput && phonePlaceholders['+90']) {
+                phoneInput.placeholder = phonePlaceholders['+90'];
+            }
+        }
+
+        // Form Validation
+        function validateEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        function validatePhone(phone, countryCode) {
+            if (!phone) return true; // Optional field
+
+            const phoneRegex = {
+                '+90': /^[0-9]{10}$/, // Turkey: 5551234567
+                '+1': /^[0-9]{10}$/, // USA: 5551234567
+                '+44': /^[0-9]{10,11}$/, // UK
+                '+49': /^[0-9]{10,11}$/, // Germany
+                '+33': /^[0-9]{9,10}$/, // France
+                '+39': /^[0-9]{9,10}$/, // Italy
+                '+34': /^[0-9]{9}$/, // Spain
+                '+31': /^[0-9]{9}$/, // Netherlands
+                '+32': /^[0-9]{8,9}$/, // Belgium
+                '+41': /^[0-9]{9}$/, // Switzerland
+                '+387': /^[0-9]{8}$/, // Bosnia
+                '+389': /^[0-9]{8}$/, // Macedonia
+                '+381': /^[0-9]{8,9}$/, // Serbia
+                '+382': /^[0-9]{8}$/, // Montenegro
+                '+385': /^[0-9]{8,9}$/, // Croatia
+                '+386': /^[0-9]{8}$/, // Slovenia
+                '+383': /^[0-9]{8}$/, // Kosovo
+                '+355': /^[0-9]{9}$/, // Albania
+                '+30': /^[0-9]{10}$/, // Greece
+                '+359': /^[0-9]{8,9}$/ // Bulgaria
+            };
+
+            const cleanPhone = phone.replace(/\s+/g, '');
+            const regex = phoneRegex[countryCode] || /^[0-9]{7,15}$/;
+            return regex.test(cleanPhone);
+        }
+
+        function showError(fieldId, message) {
+            const field = document.getElementById(fieldId);
+            const errorDiv = document.getElementById(fieldId + 'Error');
+
+            if (field) {
+                field.classList.remove('success');
+                field.classList.add('error');
+
+                // For custom selects, also add error class to parent
+                if (fieldId === 'modalSubject') {
+                    const customSelect = document.getElementById('modalCustomSubject');
+                    if (customSelect) {
+                        customSelect.classList.remove('success');
+                        customSelect.classList.add('error');
+                    }
+                }
+            }
+            if (errorDiv) {
+                errorDiv.textContent = message;
+                errorDiv.classList.add('show');
+            }
+        }
+
+        function showSuccess(fieldId) {
+            const field = document.getElementById(fieldId);
+            const errorDiv = document.getElementById(fieldId + 'Error');
+
+            if (field) {
+                field.classList.remove('error');
+                field.classList.add('success');
+
+                // For custom selects, also add success class to parent
+                if (fieldId === 'modalSubject') {
+                    const customSelect = document.getElementById('modalCustomSubject');
+                    if (customSelect) {
+                        customSelect.classList.remove('error');
+                        customSelect.classList.add('success');
+                    }
+                }
+            }
+            if (errorDiv) {
+                errorDiv.classList.remove('show');
+            }
+        }
+
+        function clearValidation(fieldId) {
+            const field = document.getElementById(fieldId);
+            const errorDiv = document.getElementById(fieldId + 'Error');
+
+            if (field) {
+                field.classList.remove('error', 'success');
+
+                // For custom selects, also clear classes from parent
+                if (fieldId === 'modalSubject') {
+                    const customSelect = document.getElementById('modalCustomSubject');
+                    if (customSelect) {
+                        customSelect.classList.remove('error', 'success');
+                    }
+                }
+            }
+            if (errorDiv) {
+                errorDiv.classList.remove('show');
+            }
+        }
+
+        // Real-time validation
+        const modalEmail = document.getElementById('modalEmail');
+        if (modalEmail) {
+            modalEmail.addEventListener('blur', function() {
+            const email = this.value.trim();
+            if (email && !validateEmail(email)) {
+                showError('modalEmail', currentLang === 'tr' ? 'Geçerli bir e-posta adresi girin' : currentLang === 'en' ? 'Enter a valid email address' : currentLang === 'mk' ? 'Внесете валидна e-mail адреса' : 'Unesite validnu e-mail adresu');
+            } else if (email) {
+                showSuccess('modalEmail');
+            } else {
+                clearValidation('modalEmail');
+            }
+            });
+        }
+
+        const modalPhone = document.getElementById('modalPhone');
+        if (modalPhone) {
+            modalPhone.addEventListener('blur', function() {
+            const phone = this.value.trim();
+            const countryCode = document.getElementById('modalCountry').value;
+
+            if (phone && !validatePhone(phone, countryCode)) {
+                const message = currentLang === 'tr' ? 'Geçerli bir telefon numarası girin' :
+                    currentLang === 'en' ? 'Enter a valid phone number' :
+                    currentLang === 'mk' ? 'Внесете валиден број на телефон' :
+                    'Unesite validan broj telefona';
+                showError('modalPhone', message);
+            } else if (phone) {
+                showSuccess('modalPhone');
+            } else {
+                clearValidation('modalPhone');
+            }
+            });
+        }
+
+        // Message field validation
+        const modalMessage = document.getElementById('modalMessage');
+        if (modalMessage) {
+            modalMessage.addEventListener('blur', function() {
+            const message = this.value.trim();
+            if (!message) {
+                showError('modalMessage', currentLang === 'tr' ? 'Mesaj alanı zorunludur' : currentLang === 'en' ? 'Message field is required' : currentLang === 'mk' ? 'Полето за порака е задолжително' : 'Polje za poruku je obavezno');
+            } else {
+                showSuccess('modalMessage');
+            }
+            });
+        }
+
+        // Name field validation
+        const modalName = document.getElementById('modalName');
+        if (modalName) {
+            modalName.addEventListener('blur', function() {
+            const name = this.value.trim();
+            if (!name) {
+                showError('modalName', currentLang === 'tr' ? 'İsim alanı zorunludur' : currentLang === 'en' ? 'Name field is required' : currentLang === 'mk' ? 'Полето за име е задолжително' : 'Polje za ime je obavezno');
+            } else {
+                showSuccess('modalName');
+            }
+            });
+        }
+
+        // Subject field validation
+        const modalSubject = document.getElementById('modalSubject');
+        if (modalSubject) {
+            modalSubject.addEventListener('change', function() {
+                const subject = this.value;
+                if (!subject) {
+                    showError('modalSubject', currentLang === 'tr' ? 'Konu seçmeniz gerekiyor' : currentLang === 'en' ? 'Please select a subject' : currentLang === 'mk' ? 'Молиме изберете предмет' : 'Molimo izaberite predmet');
+                } else {
+                    showSuccess('modalSubject');
+                }
+            });
+        }
+
+        // Technology Info Modal System
+        const techData = {
+            ai: {
+                icon: '🤖',
+                title: {
+                    tr: 'Yapay Zeka & Machine Learning',
+                    en: 'AI & Machine Learning',
+                    mk: 'ВИ и машинско учење',
+                    bs: 'AI i mašinsko učenje'
+                },
+                overview: {
+                    tr: 'Yapay zeka ve makine öğrenmesi teknolojileri ile işletmenizi geleceğe taşıyoruz. Veri analizi, tahmin modelleri ve otomasyon sistemleri geliştirerek rekabet avantajı sağlıyoruz.',
+                    en: 'We transform your business into the future with artificial intelligence and machine learning technologies. We provide competitive advantage by developing data analysis, prediction models and automation systems.',
+                    mk: 'Го трансформираме вашиот бизнис во иднината со технологии на вештачка интелигенција и машинско учење. Обезбедуваме конкурентска предност со развивање на анализа на податоци, модели за предвидување и автоматизирани системи.',
+                    bs: 'Transformišemo vaš biznis u budućnost sa tehnologijama vještačke inteligencije i mašinskog učenja. Pružamo konkurentsku prednost razvojem analize podataka, modela predviđanja i automatizovanih sistema.'
+                },
+                features: [
+                    {
+                        title: { tr: 'Makine Öğrenmesi', en: 'Machine Learning', mk: 'Машинско учење', bs: 'Mašinsko učenje' },
+                        desc: { tr: 'TensorFlow, PyTorch ile gelişmiş ML modelleri', en: 'Advanced ML models with TensorFlow, PyTorch', mk: 'Напредни ML модели со TensorFlow, PyTorch', bs: 'Napredni ML modeli sa TensorFlow, PyTorch' }
+                    },
+                    {
+                        title: { tr: 'Doğal Dil İşleme', en: 'Natural Language Processing', mk: 'Обработка на природен јазик', bs: 'Obrada prirodnog jezika' },
+                        desc: { tr: 'Metin analizi ve chatbot geliştirme', en: 'Text analysis and chatbot development', mk: 'Анализа на текст и развој на chatbot', bs: 'Analiza teksta i razvoj chatbot-a' }
+                    },
+                    {
+                        title: { tr: 'Computer Vision', en: 'Computer Vision', mk: 'Компјутерски вид', bs: 'Kompjuterski vid' },
+                        desc: { tr: 'Görüntü tanıma ve işleme sistemleri', en: 'Image recognition and processing systems', mk: 'Системи за препознавање и обработка на слики', bs: 'Sistemi za prepoznavanje i obradu slika' }
+                    },
+                    {
+                        title: { tr: 'Tahmin Analizi', en: 'Predictive Analytics', mk: 'Предиктивна аналитика', bs: 'Prediktivna analitika' },
+                        desc: { tr: 'Veri tabanlı gelecek tahminleri', en: 'Data-driven future predictions', mk: 'Предвидувања на иднината базирани на податоци', bs: 'Predviđanja budućnosti bazirana na podacima' }
+                    }
+                ]
+            },
+            web: {
+                icon: '💻',
+                title: {
+                    tr: 'Web Geliştirme',
+                    en: 'Web Development',
+                    mk: 'Веб развој',
+                    bs: 'Web razvoj'
+                },
+                overview: {
+                    tr: 'Modern web teknolojileri ile hızlı, güvenli ve ölçeklenebilir web uygulamaları geliştiriyoruz. React, Vue.js, Node.js ve cloud teknolojileri kullanarak gelecek odaklı çözümler sunuyoruz.',
+                    en: 'We develop fast, secure and scalable web applications with modern web technologies. We offer future-oriented solutions using React, Vue.js, Node.js and cloud technologies.',
+                    mk: 'Развиваме брзи, безбедни и скалабилни веб апликации со современи веб технологии. Нудиме решенија ориентирани кон иднината користејќи React, Vue.js, Node.js и cloud технологии.',
+                    bs: 'Razvijamo brze, sigurne i skalabilne web aplikacije sa modernim web tehnologijama. Nudimo rješenja orijentirana na budućnost koristeći React, Vue.js, Node.js i cloud tehnologije.'
+                },
+                features: [
+                    {
+                        title: { tr: 'Frontend Geliştirme', en: 'Frontend Development', mk: 'Frontend развој', bs: 'Frontend razvoj' },
+                        desc: { tr: 'React, Vue.js, Angular ile modern arayüzler', en: 'Modern interfaces with React, Vue.js, Angular', mk: 'Модерни интерфејси со React, Vue.js, Angular', bs: 'Moderni interfejsi sa React, Vue.js, Angular' }
+                    },
+                    {
+                        title: { tr: 'Backend Geliştirme', en: 'Backend Development', mk: 'Backend развој', bs: 'Backend razvoj' },
+                        desc: { tr: 'Node.js, Python, .NET ile güçlü API\'ler', en: 'Powerful APIs with Node.js, Python, .NET', mk: 'Моќни API со Node.js, Python, .NET', bs: 'Moćni API-ji sa Node.js, Python, .NET' }
+                    },
+                    {
+                        title: { tr: 'E-ticaret Çözümleri', en: 'E-commerce Solutions', mk: 'E-commerce решенија', bs: 'E-commerce rješenja' },
+                        desc: { tr: 'Shopify, WooCommerce, custom platformlar', en: 'Shopify, WooCommerce, custom platforms', mk: 'Shopify, WooCommerce, прилагодени платформи', bs: 'Shopify, WooCommerce, prilagođene platforme' }
+                    },
+                    {
+                        title: { tr: 'PWA Geliştirme', en: 'PWA Development', mk: 'PWA развој', bs: 'PWA razvoj' },
+                        desc: { tr: 'Progressive Web Apps ile mobil deneyim', en: 'Mobile experience with Progressive Web Apps', mk: 'Мобилно искуство со Progressive Web Apps', bs: 'Mobilno iskustvo sa Progressive Web Apps' }
+                    }
+                ]
+            },
+            mobile: {
+                icon: '📱',
+                title: {
+                    tr: 'Mobil Uygulamalar',
+                    en: 'Mobile Applications',
+                    mk: 'Мобилни апликации',
+                    bs: 'Mobilne aplikacije'
+                },
+                overview: {
+                    tr: 'iOS ve Android platformları için kullanıcı deneyimi odaklı mobil uygulamalar tasarlayıp geliştiriyoruz. Native ve cross-platform teknolojiler ile her cihazda mükemmel performans sağlıyoruz.',
+                    en: 'We design and develop user experience-focused mobile applications for iOS and Android platforms. We provide perfect performance on every device with native and cross-platform technologies.',
+                    mk: 'Дизајнираме и развиваме мобилни апликации фокусирани на корисничкото искуство за iOS и Android платформи. Обезбедуваме совршени перформанси на секој уред со native и cross-platform технологии.',
+                    bs: 'Dizajniramo i razvijamo mobilne aplikacije fokusirane na korisničko iskustvo za iOS i Android platforme. Obezbiјeđujemo savršene performanse na svakom uređaju sa native i cross-platform tehnologijama.'
+                },
+                features: [
+                    {
+                        title: { tr: 'iOS Geliştirme', en: 'iOS Development', mk: 'iOS развој', bs: 'iOS razvoj' },
+                        desc: { tr: 'Swift ve SwiftUI ile native iOS uygulamaları', en: 'Native iOS apps with Swift and SwiftUI', mk: 'Native iOS апликации со Swift и SwiftUI', bs: 'Native iOS aplikacije sa Swift i SwiftUI' }
+                    },
+                    {
+                        title: { tr: 'Android Geliştirme', en: 'Android Development', mk: 'Android развој', bs: 'Android razvoj' },
+                        desc: { tr: 'Kotlin ve Java ile performant Android uygulamaları', en: 'Performant Android apps with Kotlin and Java', mk: 'Перформантни Android апликации со Kotlin и Java', bs: 'Performantne Android aplikacije sa Kotlin i Java' }
+                    },
+                    {
+                        title: { tr: 'Cross-Platform', en: 'Cross-Platform', mk: 'Cross-Platform', bs: 'Cross-Platform' },
+                        desc: { tr: 'React Native, Flutter ile çoklu platform desteği', en: 'Multi-platform support with React Native, Flutter', mk: 'Поддршка за повеќе платформи со React Native, Flutter', bs: 'Podrška za više platformi sa React Native, Flutter' }
+                    },
+                    {
+                        title: { tr: 'UI/UX Design', en: 'UI/UX Design', mk: 'UI/UX дизајн', bs: 'UI/UX dizajn' },
+                        desc: { tr: 'Kullanıcı odaklı arayüz tasarımları', en: 'User-centered interface designs', mk: 'Дизајни на интерфејс центрирани на корисникот', bs: 'Dizajni interfejsa centrirani na korisnika' }
+                    }
+                ]
+            },
+            cloud: {
+                icon: '☁️',
+                title: {
+                    tr: 'Bulut Çözümleri',
+                    en: 'Cloud Solutions',
+                    mk: 'Cloud решенија',
+                    bs: 'Cloud rješenja'
+                },
+                overview: {
+                    tr: 'AWS, Azure ve Google Cloud platformlarında ölçeklenebilir ve güvenli bulut altyapıları kuruyoruz. DevOps, mikroservis mimarisi ve serverless teknolojiler ile modern çözümler sunuyoruz.',
+                    en: 'We build scalable and secure cloud infrastructures on AWS, Azure and Google Cloud platforms. We offer modern solutions with DevOps, microservice architecture and serverless technologies.',
+                    mk: 'Градиме скалабилни и безбедни cloud инфраструктури на AWS, Azure и Google Cloud платформи. Нудиме модерни решенија со DevOps, микросервисна архитектура и serverless технологии.',
+                    bs: 'Gradimo skalabilne i sigurne cloud infrastrukture na AWS, Azure i Google Cloud platformama. Nudimo moderna rješenja sa DevOps, mikroservisnom arhitekturom i serverless tehnologijama.'
+                },
+                features: [
+                    {
+                        title: { tr: 'AWS Çözümleri', en: 'AWS Solutions', mk: 'AWS решенија', bs: 'AWS rješenja' },
+                        desc: { tr: 'EC2, Lambda, S3, RDS ile tam yönetilen hizmetler', en: 'Fully managed services with EC2, Lambda, S3, RDS', mk: 'Полно управувани сервиси со EC2, Lambda, S3, RDS', bs: 'Potpuno upravljani servisi sa EC2, Lambda, S3, RDS' }
+                    },
+                    {
+                        title: { tr: 'Azure Platformu', en: 'Azure Platform', mk: 'Azure платформа', bs: 'Azure platforma' },
+                        desc: { tr: 'Microsoft Azure ile kurumsal bulut çözümleri', en: 'Enterprise cloud solutions with Microsoft Azure', mk: 'Претприемачки cloud решенија со Microsoft Azure', bs: 'Korporativna cloud rješenja sa Microsoft Azure' }
+                    },
+                    {
+                        title: { tr: 'DevOps & CI/CD', en: 'DevOps & CI/CD', mk: 'DevOps & CI/CD', bs: 'DevOps & CI/CD' },
+                        desc: { tr: 'Otomatik deployment ve sürekli entegrasyon', en: 'Automatic deployment and continuous integration', mk: 'Автоматско поставување и континуирана интеграција', bs: 'Automatsko postavljanje i kontinuirana integracija' }
+                    },
+                    {
+                        title: { tr: 'Konteyner Teknolojileri', en: 'Container Technologies', mk: 'Контејнер технологии', bs: 'Kontejner tehnologije' },
+                        desc: { tr: 'Docker, Kubernetes ile mikroservis mimarisi', en: 'Microservice architecture with Docker, Kubernetes', mk: 'Микросервисна архитектура со Docker, Kubernetes', bs: 'Mikroservisna arhitektura sa Docker, Kubernetes' }
+                    }
+                ]
+            },
+            security: {
+                icon: '🔒',
+                title: {
+                    tr: 'Siber Güvenlik',
+                    en: 'Cybersecurity',
+                    mk: 'Кибербезбедност',
+                    bs: 'Kibersigurnost'
+                },
+                overview: {
+                    tr: 'Şirketinizin dijital varlıklarını korumak için kapsamlı güvenlik çözümleri ve danışmanlık hizmeti sunuyoruz. Penetrasyon testleri, güvenlik denetimleri ve güvenlik politikaları geliştiriyoruz.',
+                    en: 'We provide comprehensive security solutions and consulting services to protect your company\'s digital assets. We develop penetration tests, security audits and security policies.',
+                    mk: 'Обезбедуваме сеопфатни безбедносни решенија и консултантски сервиси за заштита на дигиталните средства на вашата компанија. Развиваме пенетрациски тестови, безбедносни ревизии и безбедносни политики.',
+                    bs: 'Pružamo sveobuhvatna sigurnosna rješenja i konsultantske usluge za zaštitu digitalnih sredstava vaše kompanije. Razvijamo penetracijske testove, sigurnosne revizije i sigurnosne politike.'
+                },
+                features: [
+                    {
+                        title: { tr: 'Penetrasyon Testleri', en: 'Penetration Testing', mk: 'Пенетрациско тестирање', bs: 'Penetracijsko testiranje' },
+                        desc: { tr: 'Sistemlerinizde güvenlik açıklarını tespit etme', en: 'Detecting security vulnerabilities in your systems', mk: 'Откривање на безбедносни ранливости во вашите системи', bs: 'Otkrivanje sigurnosnih ranjivosti u vašim sistemima' }
+                    },
+                    {
+                        title: { tr: 'Güvenlik Denetimi', en: 'Security Audit', mk: 'Безбедносна ревизија', bs: 'Sigurnosna revizija' },
+                        desc: { tr: 'Kapsamlı güvenlik değerlendirmeleri ve raporlama', en: 'Comprehensive security assessments and reporting', mk: 'Сеопфатни безбедносни проценки и рапортирање', bs: 'Sveobuhvatne sigurnosne procjene i izvještavanje' }
+                    },
+                    {
+                        title: { tr: 'SIEM Çözümleri', en: 'SIEM Solutions', mk: 'SIEM решенија', bs: 'SIEM rješenja' },
+                        desc: { tr: 'Güvenlik olaylarını izleme ve analiz etme', en: 'Monitoring and analyzing security events', mk: 'Пратење и анализирање на безбедносни настани', bs: 'Praćenje i analiziranje sigurnosnih događaja' }
+                    },
+                    {
+                        title: { tr: 'Güvenlik Eğitimi', en: 'Security Training', mk: 'Безбедносно обучување', bs: 'Sigurnosno obuka' },
+                        desc: { tr: 'Personel için siber güvenlik farkındalık eğitimleri', en: 'Cybersecurity awareness training for staff', mk: 'Обуки за свесност за кибербезбедност за персоналот', bs: 'Obuka svjesnosti o kibersigurnosti za osoblje' }
+                    }
+                ]
+            },
+            data: {
+                icon: '📊',
+                title: {
+                    tr: 'Veri Analizi',
+                    en: 'Data Analytics',
+                    mk: 'Аналитика на податоци',
+                    bs: 'Analitika podataka'
+                },
+                overview: {
+                    tr: 'Büyük veriden anlamlı içgörüler çıkararak iş süreçlerinizi optimize eden raporlama ve analiz sistemleri geliştiriyoruz. Python, R, SQL ve BI araçları ile veri odaklı karar destek sistemleri kuruyoruz.',
+                    en: 'We develop reporting and analysis systems that optimize your business processes by extracting meaningful insights from big data. We establish data-driven decision support systems with Python, R, SQL and BI tools.',
+                    mk: 'Развиваме системи за рапортирање и анализа кои ги оптимизираат вашите бизнис процеси со екстракција на значајни увиди од големи податоци. Успоставуваме системи за поддршка на одлуки базирани на податоци со Python, R, SQL и BI алатки.',
+                    bs: 'Razvijamo sisteme za izvještavanje i analizu koji optimizuju vaše poslovne procese izvlačenjem značajnih uvida iz velikih podataka. Uspostavljamo sisteme za podršku odlukama bazirane na podacima sa Python, R, SQL i BI alatima.'
+                },
+                features: [
+                    {
+                        title: { tr: 'Büyük Veri İşleme', en: 'Big Data Processing', mk: 'Обработка на големи податоци', bs: 'Obrada velikih podataka' },
+                        desc: { tr: 'Hadoop, Spark ile büyük veri kümelerini işleme', en: 'Processing large datasets with Hadoop, Spark', mk: 'Обработка на големи множества податоци со Hadoop, Spark', bs: 'Obrada velikih skupova podataka sa Hadoop, Spark' }
+                    },
+                    {
+                        title: { tr: 'İş Zekası', en: 'Business Intelligence', mk: 'Бизнис интелигенција', bs: 'Poslovna inteligencija' },
+                        desc: { tr: 'Power BI, Tableau ile interaktif dashboardlar', en: 'Interactive dashboards with Power BI, Tableau', mk: 'Интерактивни контролни панели со Power BI, Tableau', bs: 'Interaktivne kontrolne table sa Power BI, Tableau' }
+                    },
+                    {
+                        title: { tr: 'Veri Görselleştirme', en: 'Data Visualization', mk: 'Визуелизација на податоци', bs: 'Vizualizacija podataka' },
+                        desc: { tr: 'D3.js, Chart.js ile dinamik grafikler', en: 'Dynamic charts with D3.js, Chart.js', mk: 'Динамички графикони со D3.js, Chart.js', bs: 'Dinamički grafici sa D3.js, Chart.js' }
+                    },
+                    {
+                        title: { tr: 'Veri Ambarı', en: 'Data Warehouse', mk: 'Магацин на податоци', bs: 'Magacin podataka' },
+                        desc: { tr: 'ETL süreçleri ve veri modellemesi', en: 'ETL processes and data modeling', mk: 'ETL процеси и моделирање на податоци', bs: 'ETL procesi i modeliranje podataka' }
+                    }
+                ]
+            }
+        };
+
+        function openTechModal(techType) {
+            const modal = document.getElementById('techModal');
+            const data = techData[techType];
+
+            if (!data) return;
+
+            const lang = currentLang || 'tr';
+
+            // Modal content will be dynamically generated
+
+            // Generate modal body content
+            const modalBody = document.getElementById('techModalBody');
+            modalBody.innerHTML = `
+                <div class="tech-banner ${techType}">
+                    <div class="tech-banner-text">${data.title[lang]}</div>
+                </div>
+                <div class="tech-section">
+                    <h4>${lang === 'tr' ? 'Genel Bakış' : lang === 'en' ? 'Overview' : lang === 'mk' ? 'Преглед' : 'Pregled'}</h4>
+                    <p>${data.overview[lang]}</p>
+                </div>
+                <div class="tech-section">
+                    <h4>${lang === 'tr' ? 'Özellikler ve Teknolojiler' : lang === 'en' ? 'Features and Technologies' : lang === 'mk' ? 'Карактеристики и технологии' : 'Karakteristike i tehnologije'}</h4>
+                    <div class="tech-features">
+                        ${data.features.map(feature => `
+                            <div class="tech-feature">
+                                <h5>${feature.title[lang]}</h5>
+                                <p>${feature.desc[lang]}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeTechModal() {
+            const modal = document.getElementById('techModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Add click events to service cards
+        document.addEventListener('DOMContentLoaded', function() {
+            const serviceCards = document.querySelectorAll('[data-tech]');
+            serviceCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const techType = this.getAttribute('data-tech');
+                    openTechModal(techType);
+                });
+            });
+
+            // Close modal when clicking outside
+            document.getElementById('techModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeTechModal();
+                }
+            });
+
+            // Close modal on escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && document.getElementById('techModal').classList.contains('active')) {
+                    closeTechModal();
+                }
+            });
+        });
+
+        // Smooth scrolling animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationDelay = '0.2s';
+                    entry.target.classList.add('fade-in');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach((el) => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
